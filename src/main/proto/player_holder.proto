@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+option java_package = "com.bluedragonmc.api.grpc";
+
+import "google/protobuf/empty.proto";
+import "common/common_types.proto";
+
+// A player holder is a proxy or game server which can hold and route players to various backend servers or game instances.
+// Both the Velocity proxy and the game servers should create a service using this proto.
+service PlayerHolder {
+  rpc SendPlayer(SendPlayerRequest) returns (SendPlayerResponse);
+}
+
+message SendPlayerRequest {
+  string player_uuid = 1;
+  string server_name = 2;
+  string instance_id = 3;
+}
+
+message SendPlayerResponse {
+  enum SuccessFlags {
+    SET_SERVER = 0;
+    SET_INSTANCE = 1;
+  }
+  bool player_found = 1;
+  repeated SuccessFlags successes = 2;
+}

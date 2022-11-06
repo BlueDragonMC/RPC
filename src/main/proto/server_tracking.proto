@@ -1,0 +1,52 @@
+syntax = "proto3";
+
+option java_package = "com.bluedragonmc.api.grpc";
+
+import "google/protobuf/empty.proto";
+import "common/common_types.proto";
+
+service ServerTrackerService {
+  rpc InitGameServer(InitGameServerRequest) returns (google.protobuf.Empty);
+  rpc ServerSync(ServerSyncRequest) returns (google.protobuf.Empty);
+}
+
+service InstanceService {
+  rpc CreateInstance(InstanceCreatedRequest) returns (google.protobuf.Empty);
+  rpc RemoveInstance(InstanceRemovedRequest) returns (google.protobuf.Empty);
+}
+
+service GameStateService {
+  rpc UpdateGameState(GameStateUpdateRequest) returns (google.protobuf.Empty);
+}
+
+message InitGameServerRequest {
+  string server_name = 1;
+}
+
+message InstanceCreatedRequest {
+  string server_name = 1;
+  string instance_uuid = 2;
+  GameType game_type = 3;
+}
+
+message InstanceRemovedRequest {
+  string server_name = 1;
+  string instance_uuid = 2;
+}
+
+message ServerSyncRequest {
+  message RunningInstance {
+    string instance_uuid = 1;
+    GameType game_type = 2;
+    GameState game_state = 3;
+  }
+
+  string server_name = 1;
+  repeated RunningInstance instances = 2;
+}
+
+message GameStateUpdateRequest {
+  string server_name = 1;
+  string instance_uuid = 2;
+  GameState game_state = 3;
+}

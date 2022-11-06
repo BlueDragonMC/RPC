@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+option java_package = "com.bluedragonmc.api.grpc";
+
+import "google/protobuf/empty.proto";
+import "common/common_types.proto";
+
+service QueueService {
+  rpc AddToQueue(AddToQueueRequest) returns (google.protobuf.Empty);
+  rpc RemoveFromQueue(RemoveFromQueueRequest) returns (google.protobuf.Empty);
+}
+
+message AddToQueueRequest {
+  string player_uuid = 1;
+  GameType game_type = 2;
+}
+
+message RemoveFromQueueRequest {
+  string player_uuid = 1;
+}

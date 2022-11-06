@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+option java_package = "com.bluedragonmc.api.grpc";
+
+import "google/protobuf/empty.proto";
+import "common/common_types.proto";
+
+// A service which allows game servers to receive messages from other services.
+// All requests originate from other services and end up on a game server.
+service GsClientService {
+  rpc SendChat(SendChatRequest) returns (google.protobuf.Empty);
+  rpc CreateInstance(CreateInstanceRequest) returns (GameState);
+}
+
+message SendChatRequest {
+
+  enum ChatType {
+    CHAT = 0;
+    ACTION_BAR = 1;
+  }
+
+  string player_uuid = 1;
+  string message = 2; // MiniMessage formatted, should be escaped if user input is involved
+  ChatType chat_type = 3;
+}
+
+message CreateInstanceRequest {
+  GameType game_type = 1;
+}

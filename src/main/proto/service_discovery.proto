@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+option java_package = "com.bluedragonmc.api.grpc";
+
+service LobbyService {
+  rpc FindLobby(FindLobbyRequest) returns (FindLobbyResponse);
+}
+
+message FindLobbyRequest {
+  repeated string include_server_names = 1;
+  repeated string exclude_server_names = 2;
+}
+
+message FindLobbyResponse {
+  bool found = 1; // If false, the other fields should not be present
+  string ip = 2;
+  uint32 port = 3;
+  string server_name = 4;
+  string instance_uuid = 5;
+}

@@ -1,0 +1,55 @@
+syntax = "proto3";
+
+option java_package = "com.bluedragonmc.api.grpc";
+
+import "google/protobuf/empty.proto";
+import "common/common_types.proto";
+
+// These RPC methods are called for player tracking. They do not actually send players anywhere.
+// For the functional RPC methods, look in player_holder.proto.
+service PlayerTracker {
+  rpc PlayerLogin(PlayerLoginRequest) returns (google.protobuf.Empty);
+  rpc PlayerTransfer(PlayerTransferRequest) returns (google.protobuf.Empty);
+  rpc PlayerInstanceChange(PlayerInstanceChangeRequest) returns (google.protobuf.Empty);
+  rpc PlayerLogout(PlayerLogoutRequest) returns (google.protobuf.Empty);
+
+  rpc QueryPlayer(PlayerQueryRequest) returns (QueryPlayerResponse);
+}
+
+message PlayerLoginRequest {
+  string username = 1;
+  string uuid = 2;
+  string proxy_address = 3;
+}
+
+message PlayerTransferRequest {
+  string username = 1;
+  string uuid = 2;
+  string new_server_name = 3;
+  string new_instance = 4; // if applicable
+}
+
+message PlayerInstanceChangeRequest {
+  string uuid = 1;
+  string server_name = 2;
+  string instance_id = 3;
+}
+
+message PlayerLogoutRequest {
+  string username = 1;
+  string uuid = 2;
+}
+
+message PlayerQueryRequest {
+  oneof identity {
+    string username = 1;
+    string uuid = 2;
+  }
+}
+
+message QueryPlayerResponse {
+  string username = 1;
+  string uuid = 2;
+//  string display_name = 3; // MiniMessage-formatted username
+  bool is_online = 4;
+}

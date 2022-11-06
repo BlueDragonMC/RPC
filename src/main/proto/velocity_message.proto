@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+option java_package = "com.bluedragonmc.api.grpc";
+
+import "google/protobuf/empty.proto";
+
+service VelocityMessageService {
+  rpc SendMessage(PrivateMessageRequest) returns (google.protobuf.Empty);
+}
+
+message PrivateMessageRequest {
+  string sender_uuid = 1;
+  string sender_username = 2;
+  string recipient_uuid = 3;
+  string message = 4;
+}

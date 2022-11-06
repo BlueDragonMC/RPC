@@ -1,0 +1,58 @@
+syntax = "proto3";
+
+option java_package = "com.bluedragonmc.api.grpc";
+
+import "google/protobuf/empty.proto";
+
+service PartyService {
+  rpc InviteToParty(PartyInviteRequest) returns (google.protobuf.Empty);
+  rpc AcceptInvitation(PartyAcceptInviteRequest) returns (google.protobuf.Empty);
+  rpc RemoveFromParty(PartyRemoveRequest) returns (google.protobuf.Empty);
+  rpc TransferParty(PartyTransferRequest) returns (google.protobuf.Empty);
+  rpc WarpParty(PartyWarpRequest) returns (google.protobuf.Empty);
+  rpc PartyChat(PartyChatRequest) returns (google.protobuf.Empty);
+  rpc PartyList(PartyListRequest) returns (PartyListResponse);
+}
+
+message PartyInviteRequest {
+  string party_owner_uuid = 1;
+  string player_uuid = 2;
+}
+
+message PartyAcceptInviteRequest {
+  string party_owner_uuid = 1;
+  string player_uuid = 2;
+}
+
+message PartyRemoveRequest {
+  string party_owner_uuid = 1;
+  string player_uuid = 2;
+}
+
+message PartyTransferRequest {
+  string player_uuid = 1;
+  string new_owner_uuid = 2;
+}
+
+message PartyWarpRequest {
+  string party_owner_uuid = 1;
+  string server_name = 2;
+  string instance_uuid = 3;
+}
+
+message PartyChatRequest {
+  string player_uuid = 1;
+  string message = 2;
+}
+
+message PartyListRequest {
+  string player_uuid = 1;
+}
+
+message PartyListResponse {
+  message PlayerEntry {
+    string username = 1; // The player's username, including any necessary MiniMessage formatting
+    string role = 2; // leader/moderator/member
+  }
+  repeated PlayerEntry players = 1;
+}
