@@ -22,6 +22,7 @@ dependencies {
     implementation("io.grpc:grpc-protobuf:$grpcVersion")
     implementation("com.google.protobuf:protobuf-java:$protoVersion")
     implementation("com.google.protobuf:protobuf-kotlin:$protoVersion")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
     compileOnly("javax.annotation:javax.annotation-api:1.3.2")
 }
 

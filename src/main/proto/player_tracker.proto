@@ -19,7 +19,7 @@ service PlayerTracker {
 message PlayerLoginRequest {
   string username = 1;
   string uuid = 2;
-  string proxy_address = 3;
+  string proxy_pod_name = 3;
 }
 
 message PlayerTransferRequest {
