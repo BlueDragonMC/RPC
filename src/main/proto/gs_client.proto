@@ -9,7 +9,7 @@ import "common/common_types.proto";
 // All requests originate from other services and end up on a game server.
 service GsClientService {
   rpc SendChat(SendChatRequest) returns (google.protobuf.Empty);
-  rpc CreateInstance(CreateInstanceRequest) returns (GameState);
+  rpc CreateInstance(CreateInstanceRequest) returns (CreateInstanceResponse);
 }
 
 message SendChatRequest {
@@ -25,5 +25,12 @@ message SendChatRequest {
 }
 
 message CreateInstanceRequest {
-  GameType game_type = 1;
+  string correlation_id = 1;
+  GameType game_type = 2;
+}
+
+message CreateInstanceResponse {
+  string correlation_id = 1; // Should be the same ID that was received in the CreateInstanceRequest
+  bool success = 2;
+  GameState game_state = 3;
 }
