@@ -4,8 +4,8 @@ option java_package = "com.bluedragonmc.api.grpc";
 
 message GameType {
   string name = 1; // The name of the game, e.g. WackyMaze or FastFall
-  string map_name = 2; // The name of the map, e.g. Sandstone or Pitfall
-  string mode = 3; // The name of the mode (currently unused)
+  optional string map_name = 2; // The name of the map, e.g. Sandstone or Pitfall
+  optional string mode = 3; // The name of the mode (currently unused)
 
   enum GameTypeFieldSelector {
     GAME_NAME = 0;
