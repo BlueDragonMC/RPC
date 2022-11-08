@@ -15,6 +15,8 @@ message SendPlayerRequest {
   string player_uuid = 1;
   string server_name = 2;
   string instance_id = 3;
+  string game_server_ip = 4;
+  uint32 game_server_port = 5;
 }
 
 message SendPlayerResponse {
