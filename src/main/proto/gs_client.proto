@@ -32,5 +32,6 @@ message CreateInstanceRequest {
 message CreateInstanceResponse {
   string correlation_id = 1; // Should be the same ID that was received in the CreateInstanceRequest
   bool success = 2;
-  GameState game_state = 3;
+  GameState game_state = 3; // Included if success == true
+  string instance_uuid = 4; // Included if success == true
 }
