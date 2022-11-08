@@ -4,12 +4,14 @@ option java_package = "com.bluedragonmc.api.grpc";
 
 import "google/protobuf/empty.proto";
 import "common/common_types.proto";
+import "server_tracking.proto";
 
 // A service which allows game servers to receive messages from other services.
 // All requests originate from other services and end up on a game server.
 service GsClientService {
   rpc SendChat(SendChatRequest) returns (google.protobuf.Empty);
   rpc CreateInstance(CreateInstanceRequest) returns (CreateInstanceResponse);
+  rpc GetInstances(google.protobuf.Empty) returns (GetInstancesResponse);
 }
 
 message SendChatRequest {
@@ -34,4 +36,15 @@ message CreateInstanceResponse {
   bool success = 2;
   GameState game_state = 3; // Included if success == true
   string instance_uuid = 4; // Included if success == true
+}
+
+message GetInstancesResponse {
+
+  message RunningInstance {
+    string instance_uuid = 1;
+    GameType game_type = 2;
+    GameState game_state = 3;
+  }
+
+  repeated RunningInstance instances = 1;
 }
