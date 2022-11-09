@@ -9,6 +9,7 @@ service InstanceService {
   rpc InitGameServer(InitGameServerRequest) returns (google.protobuf.Empty);
   rpc CreateInstance(InstanceCreatedRequest) returns (google.protobuf.Empty);
   rpc RemoveInstance(InstanceRemovedRequest) returns (google.protobuf.Empty);
+  rpc GetTotalPlayerCount(PlayerCountRequest) returns (PlayerCountResponse);
 }
 
 service GameStateService {
@@ -34,4 +35,12 @@ message GameStateUpdateRequest {
   string server_name = 1;
   string instance_uuid = 2;
   GameState game_state = 3;
+}
+
+message PlayerCountRequest {
+  optional GameType filter_game_type = 1;
+}
+
+message PlayerCountResponse {
+  uint32 total_players = 1;
 }
