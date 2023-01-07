@@ -8,6 +8,7 @@ import "common/common_types.proto";
 service QueueService {
   rpc AddToQueue(AddToQueueRequest) returns (google.protobuf.Empty);
   rpc RemoveFromQueue(RemoveFromQueueRequest) returns (google.protobuf.Empty);
+  rpc GetDestinationGame(GetDestinationRequest) returns (GetDestinationResponse);
 }
 
 message AddToQueueRequest {
@@ -17,4 +18,12 @@ message AddToQueueRequest {
 
 message RemoveFromQueueRequest {
   string player_uuid = 1;
+}
+
+message GetDestinationRequest {
+  string player_uuid = 1;
+}
+
+message GetDestinationResponse {
+  string game_id = 1;
 }
