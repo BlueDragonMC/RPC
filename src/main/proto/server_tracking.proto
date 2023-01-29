@@ -10,10 +10,15 @@ service InstanceService {
   rpc CreateInstance(InstanceCreatedRequest) returns (google.protobuf.Empty);
   rpc RemoveInstance(InstanceRemovedRequest) returns (google.protobuf.Empty);
   rpc GetTotalPlayerCount(PlayerCountRequest) returns (PlayerCountResponse);
+  rpc CheckRemoveInstance(InstanceRemovedRequest) returns (CheckRemoveInstanceResponse);
 }
 
 service GameStateService {
   rpc UpdateGameState(GameStateUpdateRequest) returns (google.protobuf.Empty);
+}
+
+message CheckRemoveInstanceResponse {
+  bool should_remove = 1;
 }
 
 message InitGameServerRequest {
