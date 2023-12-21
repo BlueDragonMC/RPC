@@ -1,0 +1,47 @@
+syntax = "proto3";
+
+option java_package = "com.bluedragonmc.api.grpc";
+
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+import "common/common_types.proto";
+
+service Jukebox {
+  rpc GetSongInfo(SongInfoRequest) returns (PlayerSongInfo);
+  rpc PlaySong(PlaySongRequest) returns (PlaySongResponse);
+  rpc StopSong(StopSongRequest) returns (google.protobuf.Empty);
+}
+
+message SongInfoRequest {
+  string player_uuid = 1;
+}
+
+message PlayerSongInfo {
+  string player_uuid = 1;
+  bool is_playing = 2;
+  optional string song_name = 3;
+  optional int32 song_progress_ticks = 4;
+  optional int32 song_length_ticks = 5;
+  optional bool is_temporary = 6;
+}
+
+message PlaySongRequest {
+  string player_uuid = 1;
+  string song_name = 2;
+  bool override_current_song = 3;
+  bool continue_current_song_when_done = 4;
+  bool is_temporary = 5;
+  int32 start_time_ticks = 6;
+}
+
+message PlaySongResponse {
+  string player_uuid = 1;
+  string song_name = 2;
+  bool started_playing = 3;
+}
+
+message StopSongRequest {
+  string player_uuid = 1;
+  bool stop_temporary_music = 2;
+  bool stop_permanent_music = 3;
+}
