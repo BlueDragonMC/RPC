@@ -10,6 +10,7 @@ service Jukebox {
   rpc GetSongInfo(SongInfoRequest) returns (PlayerSongQueue);
   rpc PlaySong(PlaySongRequest) returns (PlaySongResponse);
   rpc RemoveSong(SongRemoveRequest) returns (google.protobuf.Empty);
+  rpc RemoveSongs(BatchSongRemoveRequest) returns (google.protobuf.Empty);
   rpc StopSong(StopSongRequest) returns (google.protobuf.Empty);
 }
 
