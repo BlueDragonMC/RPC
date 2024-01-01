@@ -8,6 +8,7 @@ service PartyService {
   rpc InviteToParty(PartyInviteRequest) returns (google.protobuf.Empty);
   rpc AcceptInvitation(PartyAcceptInviteRequest) returns (google.protobuf.Empty);
   rpc RemoveFromParty(PartyRemoveRequest) returns (google.protobuf.Empty);
+  rpc LeaveParty(PartyLeaveRequest) returns (google.protobuf.Empty);
   rpc TransferParty(PartyTransferRequest) returns (google.protobuf.Empty);
   rpc WarpParty(PartyWarpRequest) returns (google.protobuf.Empty);
   rpc PartyChat(PartyChatRequest) returns (google.protobuf.Empty);
@@ -27,6 +28,10 @@ message PartyAcceptInviteRequest {
 message PartyRemoveRequest {
   string party_owner_uuid = 1;
   string player_uuid = 2;
+}
+
+message PartyLeaveRequest {
+  string player_uuid = 1;
 }
 
 message PartyTransferRequest {
