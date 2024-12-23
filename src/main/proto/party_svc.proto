@@ -13,6 +13,10 @@ service PartyService {
   rpc WarpParty(PartyWarpRequest) returns (google.protobuf.Empty);
   rpc PartyChat(PartyChatRequest) returns (google.protobuf.Empty);
   rpc PartyList(PartyListRequest) returns (PartyListResponse);
+  rpc StartMarathon(StartMarathonRequest) returns (google.protobuf.Empty);
+  rpc StopMarathon(StopMarathonRequest) returns (google.protobuf.Empty);
+  rpc GetMarathonLeaderboard(MarathonLeaderboardRequest) returns (google.protobuf.Empty);
+  rpc RecordCoinAward(RecordCoinAwardRequest) returns (google.protobuf.Empty);
 }
 
 message PartyInviteRequest {
@@ -60,4 +64,24 @@ message PartyListResponse {
     string role = 2; // leader/moderator/member
   }
   repeated PlayerEntry players = 1;
+}
+
+message StartMarathonRequest {
+  string player_uuid = 1;
+  int32 duration_ms = 2;
+}
+
+message StopMarathonRequest {
+  string player_uuid = 1;
+}
+
+message MarathonLeaderboardRequest {
+  repeated string player_uuids = 1;
+  bool silent = 2; // Whether an error message should be sent if the player isn't in a party or there isn't a Marathon ongoing
+}
+
+message RecordCoinAwardRequest {
+  string player_uuid = 1;
+  int32 coins = 2;
+  string game_id = 3;
 }
