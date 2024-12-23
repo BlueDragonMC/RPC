@@ -29,6 +29,7 @@ message InstanceCreatedRequest {
   string server_name = 1;
   string instance_uuid = 2;
   GameType game_type = 3;
+  GameState game_state = 4;
 }
 
 message InstanceRemovedRequest {
