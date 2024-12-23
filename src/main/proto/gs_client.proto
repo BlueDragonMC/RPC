@@ -44,6 +44,7 @@ message GetInstancesResponse {
     string instance_uuid = 1;
     GameType game_type = 2;
     GameState game_state = 3;
+    repeated string player_uuids = 4;
   }
 
   repeated RunningInstance instances = 1;
