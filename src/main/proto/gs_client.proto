@@ -10,8 +10,11 @@ import "server_tracking.proto";
 // All requests originate from other services and end up on a game server.
 service GsClientService {
   rpc SendChat(SendChatRequest) returns (google.protobuf.Empty);
+  rpc PlaySound(PlaySoundRequest) returns (google.protobuf.Empty);
+  rpc StopSound(StopSoundRequest) returns (google.protobuf.Empty);
   rpc CreateInstance(CreateInstanceRequest) returns (CreateInstanceResponse);
   rpc GetInstances(google.protobuf.Empty) returns (GetInstancesResponse);
+  rpc EndGame(EndGameRequest) returns (google.protobuf.Empty);
 }
 
 message SendChatRequest {
@@ -24,6 +27,20 @@ message SendChatRequest {
   string player_uuid = 1;
   string message = 2; // MiniMessage formatted, should be escaped if user input is involved
   ChatType chat_type = 3;
+}
+
+message PlaySoundRequest {
+  string player_uuid = 1;
+  string category = 2;
+  string sound_id = 3;
+  float volume = 4;
+  float pitch = 5;
+}
+
+message StopSoundRequest {
+  string player_uuid = 1;
+  string category = 2;
+  string sound_id = 3;
 }
 
 message CreateInstanceRequest {
@@ -48,4 +65,9 @@ message GetInstancesResponse {
   }
 
   repeated RunningInstance instances = 1;
+}
+
+message EndGameRequest {
+  string game_id = 1;
+  bool queue_players_for_lobby = 2;
 }
