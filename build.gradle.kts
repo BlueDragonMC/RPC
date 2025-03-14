@@ -1,8 +1,8 @@
 import com.google.protobuf.gradle.*
 
 plugins {
-    id("com.google.protobuf") version "0.8.19"
-    kotlin("jvm") version "1.7.10"
+    id("com.google.protobuf") version "0.9.4"
+    kotlin("jvm") version "2.1.10"
     `maven-publish`
 }
 
@@ -12,9 +12,9 @@ repositories {
     mavenCentral()
 }
 
-val grpcKotlinVersion = "1.3.0"
-val protoVersion = "3.21.9"
-val grpcVersion = "1.50.2"
+val grpcKotlinVersion = "1.4.1"
+val protoVersion = "4.30.1"
+val grpcVersion = "1.71.0"
 
 dependencies {
     implementation("io.grpc:grpc-stub:$grpcVersion")
