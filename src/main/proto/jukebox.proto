@@ -7,59 +7,45 @@ import "google/protobuf/timestamp.proto";
 import "common/common_types.proto";
 
 service Jukebox {
-  rpc GetSongInfo(SongInfoRequest) returns (PlayerSongQueue);
-  rpc PlaySong(PlaySongRequest) returns (PlaySongResponse);
-  rpc RemoveSong(SongRemoveRequest) returns (google.protobuf.Empty);
-  rpc RemoveSongs(BatchSongRemoveRequest) returns (google.protobuf.Empty);
-  rpc StopSong(StopSongRequest) returns (google.protobuf.Empty);
+  // This service runs on Puffin, but all the logic happens on the game servers. Puffin essentially acts as a cache for song info when players move between game servers.
+
+  // When a player logs in, the game server requests the song queue from Puffin.
+  // When a player logs out, the game server sends the updated song queue to Puffin.
+  // When a player wants to change their current song, the game server will fetch the song queue, update it, and send it to Puffin.
+  // When a song ends, the game server will remove it from the queue and send the updated queue to Puffin.
+
+  rpc GetSongQueue(GetSongQueueRequest) returns (PlayerSongQueue);
+  rpc SetSongQueue(SetSongQueueRequest) returns (google.protobuf.Empty);
 }
 
-message SongInfoRequest {
+message GetSongQueueRequest {
   string player_uuid = 1;
 }
 
 message PlayerSongQueue {
-  bool is_playing = 1;
-  repeated PlayerSongInfo songs = 2;
+  // When combined, started_playing_at and starting_tick tell you what point to resume the song at.
+  // When you need to start the song, take the starting tick and add the number of ticks that have passed since started_playing_at. Then, play the song starting from that tick.
+  // When you need to save the song's current time, set started_playing_at to the current timestamp and set starting_tick to the current tick.
+  google.protobuf.Timestamp started_playing_at = 1;
+  bool is_playing = 2;
+  int32 starting_tick = 3;
+  repeated PlayerSongInfo songs = 4;
+}
+
+message SetSongQueueRequest {
+  string player_uuid = 1;
+  PlayerSongQueue queue = 2;
 }
 
 message PlayerSongInfo {
-  string player_uuid = 1;
-  optional string song_name = 2;
-  optional int32 song_progress_ticks = 3;
-  optional int32 song_length_ticks = 4;
-  repeated string tags = 5;
+  string song_name = 1;
+  int32 song_length_ticks = 2;
+  double tempo = 3;
 }
 
 message PlaySongRequest {
   string player_uuid = 1;
-  /* A path to an nbs file, relative to the Jukebox plugin's config folder on the proxy */
+  /* An NBS file name without its extension relative to the game server's current working directory */
   string song_name = 2;
-  /* Use -1 for the end of the queue */
-  int32 queue_position = 3;
-  int32 start_time_ticks = 4;
-  /* A list of strings that identify the song; used to batch remove songs */
-  repeated string tags = 5;
-}
-
-message PlaySongResponse {
-  string player_uuid = 1;
-  string song_name = 2;
-  bool started_playing = 3;
-}
-
-message SongRemoveRequest {
-  string player_uuid = 1;
-  string song_name = 2;
-}
-
-message BatchSongRemoveRequest {
-  string player_uuid = 1;
-  /* If a song has any of the listed tags, it will be removed from the player's queue */
-  repeated string match_tags = 2;
-}
-
-/* Stops the player's current song, removes it from the queue, and pauses the next song */
-message StopSongRequest {
-  string player_uuid = 1;
+  int32 start_time_ticks = 3;
 }
