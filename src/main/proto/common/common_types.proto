@@ -2,18 +2,23 @@ syntax = "proto3";
 
 option java_package = "com.bluedragonmc.api.grpc";
 
+enum MapFormat {
+  ANVIL = 0;
+  POLAR = 1;
+}
+
+message MapSource {
+  string map_id = 1;
+  string map_url = 2;
+  MapFormat map_format = 3;
+  string map_config = 4;
+}
+
 message GameType {
   string name = 1; // The name of the game, e.g. WackyMaze or FastFall
-  optional string map_name = 2; // The name of the map, e.g. Sandstone or Pitfall
-  optional string mode = 3; // The name of the mode (currently unused)
+  optional string mode = 3; // The name of the mode
 
-  enum GameTypeFieldSelector {
-    GAME_NAME = 0;
-    MAP_NAME = 1;
-    GAME_MODE = 3;
-  }
-
-  repeated GameTypeFieldSelector selectors = 4; // All values specified here will be considered when filtering existing game servers for this game type.
+  optional string map_id = 5;
 }
 
 enum EnumGameState {
