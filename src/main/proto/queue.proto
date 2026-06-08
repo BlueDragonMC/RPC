@@ -7,6 +7,7 @@ import "common/common_types.proto";
 
 service QueueService {
   rpc AddToQueue(AddToQueueRequest) returns (google.protobuf.Empty);
+  rpc BulkAddToQueue(BulkAddToQueueRequest) returns (google.protobuf.Empty);
   rpc RemoveFromQueue(RemoveFromQueueRequest) returns (google.protobuf.Empty);
   rpc GetDestinationGame(GetDestinationRequest) returns (GetDestinationResponse);
 }
@@ -14,6 +15,10 @@ service QueueService {
 message AddToQueueRequest {
   string player_uuid = 1;
   GameType game_type = 2;
+}
+
+message BulkAddToQueueRequest {
+  repeated AddToQueueRequest requests = 1;
 }
 
 message RemoveFromQueueRequest {
