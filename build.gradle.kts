@@ -1,4 +1,6 @@
-import com.google.protobuf.gradle.*
+import com.google.protobuf.gradle.id
+import java.text.SimpleDateFormat
+import java.util.*
 
 plugins {
     id("com.google.protobuf") version "0.9.4"
@@ -51,12 +53,38 @@ protobuf {
     }
 }
 
+fun isInCI() = System.getenv("CI") != null
+
+fun getPublishingVersion(): String = if (isInCI()) {
+    val commitSha = providers.exec {
+        commandLine("git", "rev-parse", "--short", "HEAD")
+    }.standardOutput.asText.get().trim()
+
+    val date = SimpleDateFormat("YYYY-MM-dd").format(Date())
+
+    "$date-$commitSha"
+} else {
+    "dev"
+}
+
 publishing {
+    repositories {
+        if (isInCI()) {
+            maven {
+                name = "reposilite"
+                url = uri("https://reposilite.bluedragonmc.com/releases")
+                credentials(PasswordCredentials::class)
+                authentication {
+                    create<BasicAuthentication>("basic")
+                }
+            }
+        }
+    }
     publications {
         create<MavenPublication>("maven") {
             groupId = "com.bluedragonmc"
             artifactId = "rpc"
-            version = "1.0"
+            version = getPublishingVersion()
 
             from(components["java"])
         }
