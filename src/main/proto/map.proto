@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+option java_package = "com.bluedragonmc.api.grpc";
+
+import "google/protobuf/empty.proto";
+import "common/common_types.proto";
+
+service MapService {
+  rpc GetAvailableMaps(GetAvailableMapsRequest) returns (MapList);
+  rpc UpdateMapConfig(UpdateMapConfigRequest) returns (google.protobuf.Empty);
+}
+
+message MapList {
+  repeated MapSource maps = 1;
+}
+
+message PlayerList {
+  repeated string players = 1;
+}
+
+message GetAvailableMapsRequest {
+  optional string game_name = 1;
+  optional string game_mode = 2;
+  optional PlayerList whitelist = 3;
+}
+
+message UpdateMapConfigRequest {
+  string map_id = 1;
+  string config_json = 2;
+}

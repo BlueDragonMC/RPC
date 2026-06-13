@@ -2,7 +2,7 @@ import com.google.protobuf.gradle.*
 
 plugins {
     id("com.google.protobuf") version "0.9.4"
-    kotlin("jvm") version "2.1.10"
+    kotlin("jvm") version "2.3.0"
     `maven-publish`
 }
 
@@ -60,5 +60,17 @@ publishing {
 
             from(components["java"])
         }
+    }
+}
+
+kotlin {
+    jvmToolchain {
+        languageVersion.set(JavaLanguageVersion.of(25))
+    }
+}
+
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(25))
     }
 }
