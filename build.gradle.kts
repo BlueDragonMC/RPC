@@ -5,6 +5,7 @@ import java.util.*
 plugins {
     id("com.google.protobuf") version "0.9.4"
     kotlin("jvm") version "2.3.0"
+    id("org.jetbrains.dokka-javadoc") version "2.2.0"
     `maven-publish`
 }
 
@@ -67,6 +68,17 @@ fun getPublishingVersion(): String = if (isInCI()) {
     "dev"
 }
 
+val sourcesJar by tasks.registering(Jar::class) {
+    archiveClassifier.set("sources")
+    from(sourceSets.main.get().allSource)
+}
+
+val javadocJar by tasks.registering(Jar::class) {
+    archiveClassifier.set("javadoc")
+    from(tasks.dokkaGeneratePublicationJavadoc.flatMap { it.outputDirectory })
+    archiveClassifier.set("javadoc")
+}
+
 publishing {
     repositories {
         if (isInCI()) {
@@ -87,6 +99,8 @@ publishing {
             version = getPublishingVersion()
 
             from(components["java"])
+            artifact(sourcesJar)
+            artifact(javadocJar)
         }
     }
 }
@@ -100,5 +114,13 @@ kotlin {
 java {
     toolchain {
         languageVersion.set(JavaLanguageVersion.of(25))
+    }
+}
+
+dokka {
+    dokkaSourceSets {
+        configureEach {
+            suppressGeneratedFiles.set(false)
+        }
     }
 }
