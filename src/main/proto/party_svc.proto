@@ -62,6 +62,7 @@ message PartyListResponse {
   message PlayerEntry {
     string username = 1; // The player's username, including any necessary MiniMessage formatting
     string role = 2; // leader/moderator/member
+    string uuid = 3;
   }
   repeated PlayerEntry players = 1;
 }
