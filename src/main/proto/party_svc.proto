@@ -59,10 +59,15 @@ message PartyListRequest {
 }
 
 message PartyListResponse {
+  enum Role {
+    MEMBER = 0;
+    LEADER = 1;
+  }
   message PlayerEntry {
-    string username = 1; // The player's username, including any necessary MiniMessage formatting
-    string role = 2; // leader/moderator/member
-    string uuid = 3;
+    string username = 1; // The player's plain username, with no formatting
+    Role role = 2; // The player's role in the party
+    string uuid = 3; // The player's UUID
+    string color = 4; // The MiniMessage color of the player's username (e.g. "#55ffff" or "red")
   }
   repeated PlayerEntry players = 1;
 }
