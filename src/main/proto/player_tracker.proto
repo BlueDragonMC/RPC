@@ -38,6 +38,7 @@ message PlayerInstanceChangeRequest {
 message PlayerLogoutRequest {
   string username = 1;
   string uuid = 2;
+  string proxy_pod_name = 3;
 }
 
 message PlayerQueryRequest {

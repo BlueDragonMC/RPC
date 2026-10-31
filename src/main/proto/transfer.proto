@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+option java_package = "com.bluedragonmc.api.grpc";
+
+// Coordinates transferring a player from a draining proxy to a replacement proxy.
+service PlayerTransfer {
+  // Called by the draining proxy before it sends the client a transfer packet.
+  rpc PrepareTransfer(PrepareTransferRequest) returns (PrepareTransferResponse);
+
+  // Called by the replacement proxy while choosing the player's initial server.
+  rpc ConsumeTransfer(ConsumeTransferRequest) returns (ConsumeTransferResponse);
+}
+
+message PrepareTransferRequest {
+  string player_uuid = 1;
+  string proxy_pod_name = 2;
+  string server_name = 3;
+  string game_id = 4;
+}
+
+message PrepareTransferResponse {
+  bool accepted = 1;
+  string rejection_reason = 2;
+}
+
+message ConsumeTransferRequest {
+  string player_uuid = 1;
+}
+
+message ConsumeTransferResponse {
+  bool found = 1;
+  string server_name = 2;
+  string game_server_ip = 3;
+  uint32 game_server_port = 4;
+  string game_id = 5;
+}

@@ -18,12 +18,16 @@ message SendPlayerRequest {
   string instance_id = 3;
   string game_server_ip = 4;
   uint32 game_server_port = 5;
+  uint32 game_server_grpc_port = 6;
 }
 
 message SendPlayerResponse {
   enum SuccessFlags {
     SET_SERVER = 0;
     SET_INSTANCE = 1;
+    // The proxy sent the player to a replacement proxy instead of connecting
+    // to the target server itself.
+    TRANSFERRED = 2;
   }
   bool player_found = 1;
   repeated SuccessFlags successes = 2;
