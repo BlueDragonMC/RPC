@@ -23,6 +23,12 @@ dependencies {
     implementation(libs.protobuf.kotlin)
     implementation(libs.coroutines.core)
     compileOnly(libs.javax.annotation.api)
+
+    testImplementation(kotlin("test"))
+}
+
+tasks.test {
+    useJUnitPlatform()
 }
 
 val catalog = extensions.getByType<VersionCatalogsExtension>().named("libs")

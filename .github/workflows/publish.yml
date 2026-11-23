@@ -23,6 +23,6 @@ jobs:
           REPOSILITE_USERNAME: ${{ secrets.REPOSILITE_USERNAME }}
           REPOSILITE_TOKEN: ${{ secrets.REPOSILITE_TOKEN }}
         run: |
-          ./gradlew publish \
+          ./gradlew check publish \
             -PreposiliteUsername="$REPOSILITE_USERNAME" \
             -PreposilitePassword="$REPOSILITE_TOKEN"
