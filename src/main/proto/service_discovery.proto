@@ -9,6 +9,8 @@ service LobbyService {
 message FindLobbyRequest {
   repeated string include_server_names = 1;
   repeated string exclude_server_names = 2;
+  // Idempotency key
+  optional string request_id = 3;
 }
 
 message FindLobbyResponse {

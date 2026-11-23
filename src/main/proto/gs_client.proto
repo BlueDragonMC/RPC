@@ -47,6 +47,8 @@ message CreateInstanceRequest {
   string game = 3;
   MapSource map_source = 4;
   optional string mode = 5;
+  // Idempotency key
+  optional string request_id = 6;
 }
 
 message CreateInstanceResponse {
